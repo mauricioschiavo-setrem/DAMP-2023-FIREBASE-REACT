@@ -1,12 +1,12 @@
 import { FC } from 'react';
-import * as ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Login from './account/login';
+import { Login } from './account/login';
+import { Home } from './Home';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <div>Hello world!</div>,
+    element: <Home />,
   },
   {
     path: '/login',
@@ -14,6 +14,6 @@ const router = createBrowserRouter([
   },
 ]);
 
-export const App: FC<{ name: string }> = ({ name }) => {
+export const App = () => {
   return <RouterProvider router={router} />;
 };
