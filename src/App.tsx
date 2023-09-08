@@ -1,19 +1,31 @@
 import { FC } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { Login } from './account/login';
-import { Home } from './Home';
+import { UserContext } from '../context/UserContext';
+import { HomePage } from './HomePage';
+import { ListPage } from './ListPage';
+import { LoginPage } from './LoginPage';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Home />,
+    element: <HomePage />,
   },
   {
     path: '/login',
-    element: <Login />,
+    element: <LoginPage />,
+  },
+  {
+    path: '/list',
+    element: <ListPage />,
   },
 ]);
 
 export const App = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <UserContext>
+        <RouterProvider router={router} />
+      </UserContext>
+    </>
+  );
 };
