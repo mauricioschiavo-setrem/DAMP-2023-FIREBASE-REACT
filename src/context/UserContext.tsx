@@ -1,13 +1,21 @@
-import { useContext, useEffect, useState, createContext } from 'react';
+import {
+  useContext,
+  useEffect,
+  useState,
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+} from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
 
 type ValueProp = {
   userId: string;
-  setUserId: React.Dispatch<React.SetStateAction<string>>;
+  setUserId: Dispatch<SetStateAction<string>>;
 };
 
 type ContextProp = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 export const AppContext = createContext({} as ValueProp); //create the context API
@@ -21,8 +29,12 @@ export function UserContext({ children }: ContextProp) {
     setUserId(userIdStorage);
   }, [userIdStorage]);
 
+  function handleSign(obj: any) {
+    setUserIdStorage(obj);
+  }
+
   return (
-    <AppContext.Provider value={{ userId, setUserId }}>
+    <AppContext.Provider value={{ userId, setUserId: handleSign }}>
       {children}
     </AppContext.Provider>
   );
