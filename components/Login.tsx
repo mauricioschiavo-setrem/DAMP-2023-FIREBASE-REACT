@@ -5,11 +5,12 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { useGlobalContext } from '../context/UserContext';
+import { redirect } from 'react-router-dom';
 
 export function Login() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [signUp, setSignUp] = useState<boolean>(true);
+  const [signUp, setSignUp] = useState<boolean>(false);
   const [helperText, setHelperText] = useState<string>('');
 
   const { userId, setUserId } = useGlobalContext();
@@ -35,12 +36,13 @@ export function Login() {
 
   const handleSignIn = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setHelperText('Criando conta...');
+    setHelperText('Fazendo login...');
     // sign in
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         setUserId(user.uid); //this way, it is only a string and not string | undefined as before
+        redirect('/list');
       })
       .catch((error) => {
         const errorCode = error.code;
