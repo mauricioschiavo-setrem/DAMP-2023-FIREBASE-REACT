@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { UserContext } from '../context/UserContext';
+import { UserContext } from './context/UserContext';
 import { HomePage } from './HomePage';
 import { ListPage } from './ListPage';
 import { LoginPage } from './LoginPage';

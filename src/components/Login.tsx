@@ -38,19 +38,23 @@ export function Login() {
     e.preventDefault();
     setHelperText('Fazendo login...');
     // sign in
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        setUserId(user.uid); //this way, it is only a string and not string | undefined as before
-        redirect('/list');
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        errorCode === 'auth/user-not-found!'
-          ? setHelperText('Email is not registered!')
-          : setHelperText('Invalid password');
-        setTimeout(() => setHelperText(''), 2000);
-      });
+    try {
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          setUserId(user.uid); //this way, it is only a string and not string | undefined as before
+          redirect('/list');
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          errorCode === 'auth/user-not-found!'
+            ? setHelperText('Email is not registered!')
+            : setHelperText('Invalid password');
+          setTimeout(() => setHelperText(''), 2000);
+        });
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
