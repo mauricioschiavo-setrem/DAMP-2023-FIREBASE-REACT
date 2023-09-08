@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, createContext } from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
 
 type ValueProp = {
@@ -10,7 +10,7 @@ type ContextProp = {
   children: React.ReactNode;
 };
 
-export const AppContext = React.createContext({} as ValueProp); //create the context API
+export const AppContext = createContext({} as ValueProp); //create the context API
 
 //function body
 export function UserContext({ children }: ContextProp) {
