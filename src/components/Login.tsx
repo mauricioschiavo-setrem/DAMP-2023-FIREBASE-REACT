@@ -5,9 +5,10 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { useGlobalContext } from '../context/UserContext';
-import { redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [signUp, setSignUp] = useState<boolean>(false);
@@ -41,11 +42,13 @@ export function Login() {
     try {
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
+          setHelperText('Success! Redirecting...');
           const user = userCredential.user;
           setUserId(user.uid); //this way, it is only a string and not string | undefined as before
-          redirect('/list');
+          navigate('/list');
         })
         .catch((error) => {
+          console.error(error);
           const errorCode = error.code;
           errorCode === 'auth/user-not-found!'
             ? setHelperText('Email is not registered!')
