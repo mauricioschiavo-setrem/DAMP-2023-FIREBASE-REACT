@@ -53,7 +53,6 @@ export function Login() {
 
   return (
     <>
-      <h1>Login</h1>
       <form className="mt-4">
         <div className="w-72">
           <label htmlFor="eMailField" className="font-bold">
