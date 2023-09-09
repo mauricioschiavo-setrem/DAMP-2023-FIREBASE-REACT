@@ -1,20 +1,23 @@
 import { FormEvent, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { signIn } from '../services/firebase';
+import { createUser } from '../services/firebase';
 
 export function CreateAccount() {
   const [usuario, setUsuario] = useState('');
   const [senha, setSenha] = useState('');
+  const nav = useNavigate();
 
   function handleLogin(e: FormEvent) {
     e.preventDefault();
-    signIn(usuario, senha)
-      .then((credential) => {
-        alert('Bem-vindo! ' + credential.user.uid);
+    createUser(usuario, senha)
+      .then(() => {
+        alert('Conta criada! Agora você pode fazer login!');
+        nav('/login');
       })
       .catch((error) => {
         console.log(error);
-        alert('Usuário ou senha incorretos!');
+        alert('Não foi possível criar sua conta! ' + error.message);
       });
   }
 
@@ -34,11 +37,13 @@ export function CreateAccount() {
           />
         </div>
         <div>
-          <button type="submit">Acessar</button>
+          <button type="submit">Criar minha conta</button>
         </div>
         <div>
-          Ainda não tem conta?
-          <button>Que tal criar uma!</button>
+          Já tem conta?
+          <Link to="/login">
+            <button>Que tal fazer login!</button>
+          </Link>
         </div>
       </form>
     </>
