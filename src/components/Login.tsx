@@ -1,13 +1,14 @@
 import { FormEvent, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useLocalstorage from '../hooks/useLocalstorage';
 
 import { signIn } from '../services/firebase';
 
 export function Login() {
+  const go = useNavigate();
   const [usuario, setUsuario] = useState('');
   const [senha, setSenha] = useState('');
-  const [userId, setUserId] = useLocalstorage('useId', '');
+  const [userId, setUserId] = useLocalstorage('userId', '');
 
   function handleLogin(e: FormEvent) {
     e.preventDefault();
@@ -15,6 +16,7 @@ export function Login() {
       .then((credential) => {
         alert('Bem-vindo! ' + credential.user.uid);
         setUserId(credential.user.uid);
+        go('/logado');
       })
       .catch((error) => {
         console.log(error);
@@ -24,9 +26,10 @@ export function Login() {
 
   return (
     <>
+      <Link to="/logado">{userId}</Link>
       <form onSubmit={handleLogin}>
         <div>
-          <label>Usuário: {userId}</label>
+          <label>Usuário:</label>
           <input onChange={(e) => setUsuario(e.target.value)} value={usuario} />
         </div>
         <div>
