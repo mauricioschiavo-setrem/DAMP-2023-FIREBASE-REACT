@@ -101,11 +101,11 @@ export function LoggedPage() {
       <div>
         {movies.map((item) => {
           return (
-            <div onClick={() => handleAdd(item.id, item)} key={item.id}>
+            <div onClick={() => handleAdd(String(item.id), item)} key={item.id}>
               <img
                 src={'https://image.tmdb.org/t/p/w154/' + item.poster_path}
               />
-              {item.original_title} ({item.release_date})
+              {item.id} {item.original_title} ({item.release_date})
             </div>
           );
         })}
