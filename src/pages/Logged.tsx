@@ -9,6 +9,7 @@ import {
   selectAllItems,
   filter,
 } from '../services/firebase';
+import { getDiscoverMovies } from '../services/moviedb';
 
 export function LoggedPage() {
   const go = useNavigate();
@@ -68,7 +69,15 @@ export function LoggedPage() {
 
   useEffect(() => {
     loadAllItems();
+    handleLoadMovies();
   }, []);
+
+  const [movies, setMovies] = useState([]);
+  async function handleLoadMovies() {
+    const data = await getDiscoverMovies();
+    console.log(data);
+    setMovies(data.results);
+  }
 
   return (
     <div className="box-login">
@@ -89,6 +98,20 @@ export function LoggedPage() {
           return <li key={item.id}>{item.name}</li>;
         })}
       </ul>
+      <hr />
+      <button onClick={handleLoadMovies}>Movies</button>
+      <div>
+        {movies.map((item) => {
+          return (
+            <div key={item.id}>
+              <img
+                src={'https://image.tmdb.org/t/p/w154/' + item.poster_path}
+              />
+              {item.original_title} ({item.release_date})
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
