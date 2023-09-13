@@ -5,6 +5,11 @@ import {
   setDoc,
   updateDoc,
   deleteDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+  onSnapshot,
 } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import {
@@ -45,4 +50,39 @@ export function updateItem(colecao: string, document: string, data: unknown) {
 export function deleteItem(colecao: string, document: string) {
   const docRef = doc(db, colecao, document);
   return deleteDoc(docRef);
+}
+
+export type filter = {
+  field: string;
+  operation: string;
+  value: unknown;
+};
+
+export async function selectAllItems(colecao: string, filter?: filter[]) {
+  //const q = query(collection(db, "cities"), where("capital", "==", true));
+  const wh = filter?.map((f) => where(f.field, f.operation, f.value));
+  const q = query(collection(db, colecao), wh);
+  console.log('query', wh);
+  //const q = query(collection(db, colecao));
+  const querySnapshot = await getDocs(q);
+  const queryResult = [];
+  querySnapshot.forEach((doc) => {
+    queryResult.push({
+      id: doc.id,
+      ...doc.data(),
+    });
+  });
+  return queryResult;
+}
+
+export function addListener(colecao: string, f: () => void) {
+  const q = query(collection(db, colecao));
+  return onSnapshot(q, (querySnapshot) => {
+    // const docs = [];
+    // querySnapshot.forEach((doc) => {
+    //   docs.push(doc.data().name);
+    // });
+    // console.log('Current docs: ', docs.join(', '));
+    f();
+  });
 }

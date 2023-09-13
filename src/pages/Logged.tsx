@@ -1,8 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Login } from '../components/Login';
 import useLocalstorage from '../hooks/useLocalstorage';
-import { addItem, updateItem, deleteItem } from '../services/firebase';
+import {
+  addItem,
+  updateItem,
+  deleteItem,
+  selectAllItems,
+  filter,
+  addListener,
+} from '../services/firebase';
 
 export function LoggedPage() {
   const go = useNavigate();
@@ -41,6 +48,26 @@ export function LoggedPage() {
     }
   }
 
+  const [list, setList] = useState([]);
+  async function loadAllItems() {
+    try {
+      const filter = {
+        field: 'name',
+        operation: '==',
+        value: 'Start Wars',
+      } as filter;
+      const queryResult = await selectAllItems('movies', [filter]);
+      console.log(queryResult);
+      setList(queryResult);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    loadAllItems();
+  }, []);
+
   return (
     <div className="box-login">
       <h1
@@ -54,6 +81,12 @@ export function LoggedPage() {
       <button onClick={handleAdd}>Adicionar</button>
       <button onClick={handleUpdate}>Atualizar</button>
       <button onClick={handleDelete}>Deletar</button>
+      <button onClick={loadAllItems}>loadAllItems</button>
+      <ul>
+        {list.map((item) => {
+          return <li key={item.id}>{item.name}</li>;
+        })}
+      </ul>
     </div>
   );
 }
