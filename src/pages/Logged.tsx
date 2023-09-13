@@ -8,7 +8,6 @@ import {
   deleteItem,
   selectAllItems,
   filter,
-  addListener,
 } from '../services/firebase';
 
 export function LoggedPage() {
@@ -21,6 +20,7 @@ export function LoggedPage() {
         .then(console.log)
         .catch(console.error);
       console.info('Added');
+      loadAllItems();
     } catch (err) {
       console.error(err);
     }
@@ -32,6 +32,7 @@ export function LoggedPage() {
         .then(console.log)
         .catch(console.error);
       console.info('Updated');
+      loadAllItems();
     } catch (err) {
       console.error(err);
     }
@@ -43,6 +44,7 @@ export function LoggedPage() {
         .then(console.log)
         .catch(console.error);
       console.info('Deleted');
+      loadAllItems();
     } catch (err) {
       console.error(err);
     }

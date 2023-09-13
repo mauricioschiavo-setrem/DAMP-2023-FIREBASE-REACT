@@ -74,15 +74,3 @@ export async function selectAllItems(colecao: string, filter?: filter[]) {
   });
   return queryResult;
 }
-
-export function addListener(colecao: string, f: () => void) {
-  const q = query(collection(db, colecao));
-  return onSnapshot(q, (querySnapshot) => {
-    // const docs = [];
-    // querySnapshot.forEach((doc) => {
-    //   docs.push(doc.data().name);
-    // });
-    // console.log('Current docs: ', docs.join(', '));
-    f();
-  });
-}
