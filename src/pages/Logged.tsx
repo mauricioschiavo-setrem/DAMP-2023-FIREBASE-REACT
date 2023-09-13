@@ -15,11 +15,9 @@ export function LoggedPage() {
   const go = useNavigate();
   const [userId, setUserId] = useLocalstorage('userId', '');
 
-  async function handleAdd() {
+  async function handleAdd(id: string, data: unknown) {
     try {
-      await addItem('movies', 'movie-3', { name: 'Apple' })
-        .then(console.log)
-        .catch(console.error);
+      await addItem('movies', id, data).then(console.log).catch(console.error);
       console.info('Added');
       loadAllItems();
     } catch (err) {
@@ -89,13 +87,13 @@ export function LoggedPage() {
         Bem-vindo!
       </h1>
       <small>{userId}</small>
-      <button onClick={handleAdd}>Adicionar</button>
+      <button onClick={() => handleAdd('movie-3', 'Apple')}>Adicionar</button>
       <button onClick={handleUpdate}>Atualizar</button>
       <button onClick={handleDelete}>Deletar</button>
       <button onClick={loadAllItems}>loadAllItems</button>
       <ul>
         {list.map((item) => {
-          return <li key={item.id}>{item.name}</li>;
+          return <li key={item.id}>{JSON.stringify(item)}</li>;
         })}
       </ul>
       <hr />
@@ -103,7 +101,7 @@ export function LoggedPage() {
       <div>
         {movies.map((item) => {
           return (
-            <div key={item.id}>
+            <div onClick={() => handleAdd(item.id, item)} key={item.id}>
               <img
                 src={'https://image.tmdb.org/t/p/w154/' + item.poster_path}
               />
