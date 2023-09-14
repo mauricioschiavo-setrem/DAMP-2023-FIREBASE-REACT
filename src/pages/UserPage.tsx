@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Filme } from '../components/Filme/Filme';
 import { getDiscoverMovies } from '../services/moviedb';
 
 export function UserPage() {
@@ -25,9 +26,17 @@ export function UserPage() {
       <h2>Seus favoritos</h2>
       <hr />
       <h2>Veja outros lançamentos</h2>
-      {movies?.map((movie) => {
-        return <div>{movie.original_title}</div>;
-      })}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr 1fr',
+          gap: '1rem',
+        }}
+      >
+        {movies?.map((movie) => {
+          return <Filme filme={movie} />;
+        })}
+      </div>
     </>
   );
 }
