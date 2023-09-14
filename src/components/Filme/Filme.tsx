@@ -17,7 +17,10 @@ export function Filme({ filme }: FilmeProps) {
       <div className="filme">
         <img src={'https://image.tmdb.org/t/p/w154/' + filme.poster_path} />
         <small>{filme.vote_average}</small>
-        <div>{filme.original_title}</div>
+        <div>
+          <b>{filme.original_title}</b>
+          {filme.release_date}
+        </div>
       </div>
     </>
   );
