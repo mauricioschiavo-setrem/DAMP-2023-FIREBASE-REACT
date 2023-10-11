@@ -65,6 +65,7 @@ export async function selectAllItems(colecao: string, filter?: filter[]) {
   const q = query(collection(db, colecao), wh);
   console.log('query', wh);
   const querySnapshot = await getDocs(q);
+  console.log(querySnapshot);
   const queryResult = [];
   querySnapshot.forEach((doc) => {
     queryResult.push({
@@ -72,5 +73,6 @@ export async function selectAllItems(colecao: string, filter?: filter[]) {
       ...doc.data(),
     });
   });
+  console.log(queryResult);
   return queryResult;
 }
