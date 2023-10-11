@@ -2,6 +2,18 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import {
+  getFirestore,
+  doc,
+  setDoc,
+  updateDoc,
+  deleteDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+  onSnapshot,
+} from 'firebase/firestore';
+import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from 'firebase/auth';
@@ -25,4 +37,19 @@ export function signIn(usuario: string, senha: string) {
 
 export function createUser(usuario: string, senha: string) {
   return createUserWithEmailAndPassword(auth, usuario, senha);
+}
+
+export function addItem(colecao: string, document: string, data: unknown) {
+  const docRef = doc(db, colecao, document);
+  return setDoc(docRef, data);
+}
+
+export function updateItem(colecao: string, document: string, data: unknown) {
+  const docRef = doc(db, colecao, document);
+  return updateDoc(docRef, data);
+}
+
+export function deleteItem(colecao: string, document: string) {
+  const docRef = doc(db, colecao, document);
+  return deleteDoc(docRef);
 }
