@@ -53,3 +53,24 @@ export function deleteItem(colecao: string, document: string) {
   const docRef = doc(db, colecao, document);
   return deleteDoc(docRef);
 }
+
+export type filter = {
+  field: string;
+  operation: string;
+  value: unknown;
+};
+
+export async function selectAllItems(colecao: string, filter?: filter[]) {
+  const wh = filter?.map((f) => where(f.field, f.operation, f.value));
+  const q = query(collection(db, colecao), wh);
+  console.log('query', wh);
+  const querySnapshot = await getDocs(q);
+  const queryResult = [];
+  querySnapshot.forEach((doc) => {
+    queryResult.push({
+      id: doc.id,
+      ...doc.data(),
+    });
+  });
+  return queryResult;
+}
